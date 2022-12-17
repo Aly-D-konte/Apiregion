@@ -11,15 +11,21 @@ import java.util.Optional;
 
 @Service
 public class PaysService {
+
+    @Autowired
     private PaysRepository paysRepository;
 
 
-@Autowired
+
 // ----------------------------Controllers-----------------------------------
+
+    /*
     public PaysService(PaysRepository paysRepository)
     {
         this.paysRepository = paysRepository;
     }
+
+     */
     // ----------------------------Ajouter un pays-----------------------------------OK
 
     public ReponseMessage ajouterPays(Pays pays) {

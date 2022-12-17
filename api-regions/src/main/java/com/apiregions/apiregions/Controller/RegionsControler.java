@@ -93,7 +93,7 @@ public class RegionsControler {
         if(regionsRepository.findByNomregions(nomregions) == null){
 
           //  String u = "C:/Users/adcoulibaly/Desktop/ERP/ApplicationERPInterface/src/assets/images";
-            String uploaDir = "C:\\Users\\adkonte\\Desktop\\PROJET\\api-regions-main\\src\\main\\resources\\static";
+            String uploaDir = "C:\\Users\\adkonte\\Desktop\\PROJET\\api-regions\\src\\main\\resources\\static";
             //String uploaDir = new ClassPathResource("files/").getFile().getAbsolutePath();
             ConfigImage.saveimg(uploaDir, nomfile, file);
             //  entiteServiceImplement.ajouter(entite);
@@ -131,7 +131,7 @@ public class RegionsControler {
 //Classe afficher une regions
 
 
-    @GetMapping(path = "/uneRegion/{id_regions}", name = "lire")
+    @GetMapping(path = "/detail/{id_regions}", name = "lire")
     @ResponseStatus(HttpStatus.OK)
     public ReponseMessage lire(@PathVariable Long id_regions) {
         return this.regionsService.afficherUneRegion(id_regions);

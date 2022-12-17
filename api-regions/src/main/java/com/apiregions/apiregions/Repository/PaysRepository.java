@@ -12,7 +12,7 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
 
     */
 
-    public Pays findByNompays(String pays);
+     Pays findByNompays(String nompays);
 
 
 }

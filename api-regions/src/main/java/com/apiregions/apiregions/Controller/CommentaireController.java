@@ -6,9 +6,9 @@ import com.apiregions.apiregions.Sevices.CommentaireService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200" , maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping(path = "/commentaire",name ="commentaire")
+@RequestMapping(path = "/api/commentaire",name ="commentaire")
 
 public class CommentaireController {
 

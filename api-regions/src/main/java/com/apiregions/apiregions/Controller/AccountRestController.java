@@ -26,6 +26,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
+
 public class AccountRestController {
     private AccountServices accountServices;
 // CETTE CONSTRUCTEUR NOUS PERMET DE FAIRE L'INJECTION DE DEPENDANCE
@@ -44,7 +47,7 @@ public class AccountRestController {
 
     // ICI ON AJOUTE UN UTILISATEURS
     @PostMapping(path = "/addusers")
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     public String ajouterUtilisateurs(@RequestBody UsersApp usersApp){
         return accountServices.addNewUsers(usersApp);
     }

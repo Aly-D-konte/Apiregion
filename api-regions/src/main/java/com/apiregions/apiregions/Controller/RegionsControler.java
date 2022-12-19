@@ -9,6 +9,7 @@ import com.apiregions.apiregions.img.ConfigImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.Column;
 import java.io.IOException;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200")
+import java.util.Optional;
+
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 @RestController
-@RequestMapping(path = "Regions", name = "Regions")
+@RequestMapping(path = "/api/region", name = "Regions")
 public class RegionsControler {
 
     @Autowired
@@ -36,7 +39,7 @@ public class RegionsControler {
 
     @PostMapping(path = "/creer", name = "create")
     @ResponseStatus(HttpStatus.CREATED)
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ReponseMessage add(@RequestBody Regions regions) {
         return this.regionsService.ajouterRegions(regions);
     }
@@ -55,6 +58,8 @@ public class RegionsControler {
     private RegionsRepository regionsRepository;
 
     @PostMapping("/ajouterRegion")
+    @PreAuthorize("hasRole('ADMIN')")
+
     public ReponseMessage ajouterRegion(@Param("nomregions") String nomregions,@Param("coderegion") String coderegion, @Param("activiterregion") String activiterregion, @Param("superficieregion") String superficieregion, @Param("languemregion") String languemregion, @Param("description") String description, @Param("id_pays") Pays id_pays, @Param("file") MultipartFile file) throws IOException {
         Regions regions = new Regions();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -124,6 +129,8 @@ public class RegionsControler {
 
 //Classe afficher toute les regions
     @GetMapping(path = "/liste", name = "list")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
+
     @ResponseStatus(HttpStatus.OK) //Permet de monter l'etat de notre requete
     public List<Regions> list() {
         return this.regionsService.afficherRegions();
@@ -132,13 +139,17 @@ public class RegionsControler {
 
 
     @GetMapping(path = "/detail/{id_regions}", name = "lire")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
+
     @ResponseStatus(HttpStatus.OK)
-    public ReponseMessage lire(@PathVariable Long id_regions) {
+    public Optional<Regions> lire(@PathVariable Long id_regions) {
         return this.regionsService.afficherUneRegion(id_regions);
     }
 //Classe permettant de modifier les regions
 
     @PutMapping(path = "/modifier/{id_regions}", name = "modifier")
+    @PreAuthorize("hasRole('ADMIN') ")
+
     @ResponseStatus(HttpStatus.OK)
     public ReponseMessage modifier(@RequestBody Regions regions, @PathVariable Long id_regions) {
         return this.regionsService.modifierRegions(regions, id_regions);
@@ -146,6 +157,8 @@ public class RegionsControler {
 
     //Classe permettant de supprimer une region
     @DeleteMapping(path = "/supprimer/{id_regions}", name = "supprimer")
+    @PreAuthorize("hasRole('ADMIN') ")
+
     //  @ResponseStatus(HttpStatus.NO_CONTENT)
     public void supprimer(@PathVariable Long id_regions) {
         this.regionsService.supprimer(id_regions);
@@ -154,6 +167,8 @@ public class RegionsControler {
     // La liste des regions sans pays
 
     @GetMapping(path = "/regionssansPays")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
+
     public Iterable<Object[]> mesRegions() {
         return this.regionsService.mesRegions();
     }
@@ -162,6 +177,8 @@ public class RegionsControler {
     // La liste des regions avec pays
 
     @GetMapping(path = "/regionsavecPays")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
+
     public Iterable<Object[]> mesRegionsAvecPays() {
         return this.regionsService.mesRegionsAvecPays();
     }

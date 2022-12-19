@@ -70,18 +70,18 @@
             }
 
 // Afficher une seule region
-            public ReponseMessage afficherUneRegion(Long id_regions)
+            public Optional<Regions> afficherUneRegion(Long id_regions)
             {
                 Optional<Regions> regions = this.regionsRepository.findById(id_regions);
 
                 if (!regions.isPresent()) {
                     ReponseMessage message = new ReponseMessage("Cette région n'est pas trouvée !", false);
-                    return message;
+                    return null;
                 }
                 else {
-                    Regions RG =  this.regionsRepository.findById(id_regions).get();
-                    ReponseMessage message = new ReponseMessage(" Nom: "+RG.getNomregions()+" Pays: "+RG.getPays().getNompays()+" Activité "+RG.getActiviterregion()+" Code région: "+RG.getCoderegion()+" Langue: "+RG.getLanguemregion()+" Superficie: "+RG.getSuperficieregion(), true);
-                    return message;
+                   // Regions RG =  this.regionsRepository.findById(id_regions).get();
+                   // ReponseMessage message = new ReponseMessage(" Nom: "+RG.getNomregions()+" Pays: "+RG.getPays().getNompays()+" Activité "+RG.getActiviterregion()+" Code région: "+RG.getCoderegion()+" Langue: "+RG.getLanguemregion()+" Superficie: "+RG.getSuperficieregion(), true);
+                    return regionsRepository.findById(id_regions);
                 }
 
             }

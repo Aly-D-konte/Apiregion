@@ -8,16 +8,17 @@ import com.apiregions.apiregions.img.ConfigImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 @RestController
-@RequestMapping(path = "Pays",name ="Pays")
+@RequestMapping(path = "/api/pays",name ="Pays")
 
 public class PaysControler {
     @Autowired
@@ -33,6 +34,7 @@ public class PaysControler {
     // ----------------------------Request Post-----------------------------------
 
     @PostMapping(path ="/creer", name = "create")
+    @PreAuthorize("hasRole('ADMIN') ")
     @ResponseStatus(HttpStatus.CREATED)
     public ReponseMessage add (@RequestBody Pays pays)
     {
@@ -41,6 +43,7 @@ public class PaysControler {
     }
 
     @PostMapping("/ajouterpays")
+    @PreAuthorize("hasRole('ADMIN') ")
     public ReponseMessage ajouterpays(@Param("nompays") String nompays, @Param("description") String description, @Param("images") String images, @Param("file") MultipartFile file) throws IOException {
         Pays pays = new Pays();
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -81,6 +84,8 @@ public class PaysControler {
     // ----------------------------Request Get-----------------------------------
 
     @GetMapping(path ="/liste", name = "list")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
+
     @ResponseStatus(HttpStatus.OK)
     public List<Pays> list()
     {
@@ -91,6 +96,7 @@ public class PaysControler {
     // ----------------------------Request lIRE PAR PAYS-----------------------------------
 
     @GetMapping(path ="/unPays/{id_pays}", name = "lire")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') ")
     @ResponseStatus(HttpStatus.OK)
     public ReponseMessage lire(@PathVariable Long id_pays)
     {
@@ -100,6 +106,8 @@ public class PaysControler {
     // ----------------------------Request modifier-----------------------------------
 
     @PutMapping(path ="/modifier/{id_pays}", name = "modifier")
+    @PreAuthorize("hasRole('ADMIN') ")
+
     @ResponseStatus(HttpStatus.OK)
     public ReponseMessage modifier(@RequestBody Pays pays, @PathVariable Long id_pays)
     {
@@ -110,7 +118,9 @@ public class PaysControler {
     // ----------------------------Request supprimer-----------------------------------
 
     @DeleteMapping(path ="/supprimer/{id_pays}", name = "supprimer")
-   //  @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN') ")
+
+    //  @ResponseStatus(HttpStatus.NO_CONTENT)
     public void supprimer(@PathVariable Long id_pays)
     {
          this.paysService.supprimerPays(id_pays);

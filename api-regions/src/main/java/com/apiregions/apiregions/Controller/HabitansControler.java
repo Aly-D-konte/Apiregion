@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 @RestController
-@RequestMapping(path = "/Habitants",name ="Habitants")
+@RequestMapping(path = "/api/habitant",name ="Habitants")
 public class HabitansControler {
 
     private HabitantsService habitantsService;

@@ -41,7 +41,7 @@ public class JwtAuthentificationFilter extends UsernamePasswordAuthenticationFil
         return authenticationManager.authenticate(AuthenticationToken);
     }
 
-    // UNE FOIS QUE LA CONNECTIO EST REUSSISSE
+    // UNE FOIS QUE LA CONNECTION EST RÉUSSIE
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
